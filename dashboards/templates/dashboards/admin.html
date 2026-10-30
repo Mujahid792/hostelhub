@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Admin Dashboard - HostelHub{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'dashboards/css/dashboard.css' %}">{% endblock %}
+{% block content %}
+<h2>Admin Dashboard</h2>
+<div class="stat-grid">
+    <div class="stat-card"><span class="stat-number">{{ stats.total_rooms }}</span><span>Total Rooms</span></div>
+    <div class="stat-card"><span class="stat-number">{{ stats.total_occupied }}/{{ stats.total_capacity }}</span><span>Bed Occupancy</span></div>
+    <div class="stat-card"><span class="stat-number">{{ stats.total_students }}</span><span>Students</span></div>
+    <div class="stat-card"><span class="stat-number">{{ stats.pending_complaints }}</span><span>Pending Complaints</span></div>
+    <div class="stat-card"><span class="stat-number">{{ stats.pending_gatepasses }}</span><span>Pending Gate Passes</span></div>
+</div>
+<div class="dashboard-grid">
+    <div class="dash-card">
+        <h3>Recent Complaints</h3>
+        {% for c in recent_complaints %}
+            <p>#{{ c.pk }} {{ c.title }} <span class="badge badge-{{ c.status }}">{{ c.get_status_display }}</span></p>
+        {% empty %}<p class="muted">None.</p>{% endfor %}
+        <a href="{% url 'complaints:track' %}" class="btn btn-sm">View All</a>
+    </div>
+    <div class="dash-card">
+        <h3>Recent Allocations</h3>
+        {% for a in recent_allocations %}
+            <p>{{ a.student.username }} → {{ a.room }}</p>
+        {% empty %}<p class="muted">None.</p>{% endfor %}
+        <a href="{% url 'allocations:list' %}" class="btn btn-sm">View All</a>
+    </div>
+</div>
+{% endblock %}

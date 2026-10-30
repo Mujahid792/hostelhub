@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Submit Complaint - HostelHub{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'complaints/css/complaints.css' %}">{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>Submit Complaint</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group">
+                <label>{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}<div class="field-error">{{ field.errors }}</div>{% endif %}
+            </div>
+        {% endfor %}
+        <div id="preview-container" class="preview-container" style="display:none;">
+            <img id="image-preview" src="" alt="Preview">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+<script src="{% static 'complaints/js/upload-preview.js' %}"></script>
+{% endblock %}

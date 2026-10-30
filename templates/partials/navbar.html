@@ -1,0 +1,23 @@
+{% load static %}
+<nav class="navbar">
+    <a href="{% url 'landing' %}" class="brand">
+    <img src="{% static 'img/logo.png' %}" alt="HostelHub Logo" class="logo">
+    <span>HostelHub</span>
+    </a>
+    <ul class="nav-links">
+        {% if user.is_authenticated %}
+            <li><a href="{% url 'dashboards:home' %}">Dashboard</a></li>
+            {% if user.is_student %}
+                <li><a href="{% url 'complaints:submit' %}">Complaints</a></li>
+                <li><a href="{% url 'gatepass:request' %}">Gate Pass</a></li>
+            {% endif %}
+            <li><a href="{% url 'rooms:list' %}">Rooms</a></li>
+            <li><a href="{% url 'allocations:list' %}">Allocations</a></li>
+            <li><a href="{% url 'accounts:profile' %}">{{ user.username }}</a></li>
+            <li><a href="{% url 'accounts:logout' %}" class="btn btn-sm">Logout</a></li>
+        {% else %}
+            <li><a href="{% url 'accounts:login' %}">Login</a></li>
+            <li><a href="{% url 'accounts:register' %}" class="btn btn-sm btn-primary">Register</a></li>
+        {% endif %}
+    </ul>
+</nav>

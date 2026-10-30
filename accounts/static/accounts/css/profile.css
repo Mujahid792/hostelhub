@@ -1,0 +1,4 @@
+.profile-container { max-width: 700px; margin: 2rem auto; padding: 0 1rem; }
+.profile-card { background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.profile-info { margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid #eee; }
+.profile-info p { margin: 0.4rem 0; }

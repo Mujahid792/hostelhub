@@ -1,0 +1,12 @@
+.room-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; margin-top: 1rem; }
+.room-card { background: #fff; padding: 1rem; border-radius: 10px; border-left: 4px solid #ccc; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
+.room-card.status-available { border-left-color: #2ecc71; }
+.room-card.status-full { border-left-color: #e74c3c; }
+.room-card.status-maintenance { border-left-color: #f39c12; }
+.room-card h3 { margin: 0 0 0.4rem; }
+.room-card p { margin: 0.2rem 0; font-size: 0.9rem; color: #555; }
+.badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 20px; font-size: 0.75rem; color: #fff; margin-top: 0.5rem; }
+.badge-available { background: #2ecc71; }
+.badge-full { background: #e74c3c; }
+.badge-maintenance { background: #f39c12; }
+.room-actions { margin-top: 0.6rem; display: flex; gap: 0.4rem; }

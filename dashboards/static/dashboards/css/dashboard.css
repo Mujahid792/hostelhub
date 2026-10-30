@@ -1,0 +1,7 @@
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; margin: 1rem 0; }
+.stat-card { background: #fff; padding: 1.2rem; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); text-align: center; }
+.stat-number { display: block; font-size: 1.8rem; font-weight: 700; color: #2c3e50; }
+.dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+.dash-card { background: #fff; padding: 1.2rem; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.dash-card h3 { margin-top: 0; color: #34495e; }
+.muted { color: #888; }

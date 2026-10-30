@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Track Complaints - HostelHub{% endblock %}
+{% block content %}
+<div class="page-header"><h2>Complaints</h2></div>
+<table class="data-table">
+    <thead>
+        <tr><th>#</th><th>Title</th><th>Category</th><th>Priority</th><th>Status</th><th>Assigned</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+    {% for c in complaints %}
+        <tr>
+            <td>{{ c.pk }}</td>
+            <td>{{ c.title }}</td>
+            <td>{{ c.get_category_display }}</td>
+            <td><span class="badge badge-{{ c.priority }}">{{ c.get_priority_display }}</span></td>
+            <td><span class="badge badge-{{ c.status }}">{{ c.get_status_display }}</span></td>
+            <td>{{ c.assigned_to.username|default:"-" }}</td>
+            <td>
+                {% if user.is_admin_role %}
+                    <a href="{% url 'complaints:assign' c.pk %}" class="btn btn-sm">Assign</a>
+                {% endif %}
+                {% if user.is_technician and c.assigned_to == user %}
+                    <form method="post" action="{% url 'complaints:update' c.pk %}" style="display:inline">
+                        {% csrf_token %}
+                        <select name="status">
+                            <option value="in_progress">In Progress</option>
+                            <option value="resolved">Resolved</option>
+                        </select>
+                        <button class="btn btn-sm btn-primary">Update</button>
+                    </form>
+                {% endif %}
+            </td>
+        </tr>
+    {% empty %}
+        <tr><td colspan="7">No complaints.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

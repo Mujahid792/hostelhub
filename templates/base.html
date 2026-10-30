@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}HostelHub{% endblock %}</title>
+
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+    <!--
+      LOGIC: Only show the standard white navbar if we are NOT on the landing page.
+      The landing page has its own custom dark navbar.
+    -->
+    {% if request.path != '/' %}
+        {% include 'partials/navbar.html' %}
+    {% endif %}
+
+    <!-- Display Django Messages (Success/Error alerts) -->
+    {% include 'partials/messages.html' %}
+
+    <!-- Main Content Block -->
+    {% block content %}{% endblock %}
+
+    {% include 'partials/footer.html' %}
+
+    <!-- Main JavaScript -->
+    <script src="{% static 'js/main.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

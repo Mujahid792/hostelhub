@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Request Gate Pass - HostelHub{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'gatepass/css/gatepass.css' %}">{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>Request Gate Pass</h2>
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group">
+                <label>{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}<div class="field-error">{{ field.errors }}</div>{% endif %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Submit Request</button>
+    </form>
+</div>
+{% endblock %}

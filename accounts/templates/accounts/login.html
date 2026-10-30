@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}Login - HostelHub{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <h2>Login to HostelHub</h2>
+
+        <form method="post" novalidate>
+            {% csrf_token %}
+
+            <!-- Non-field errors (e.g., "Invalid username or password") -->
+            {% if form.non_field_errors %}
+                <div class="alert alert-error">
+                    {% for error in form.non_field_errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <!-- Loop through all fields (Just like Register) -->
+            {% for field in form %}
+                <div class="form-group">
+
+                    <!-- Replaces the manual <label> tag -->
+                    {{ field.label_tag }}
+
+                    {{ field }}
+
+                    <!-- Field-specific errors -->
+                    {% if field.errors %}
+                        <div class="field-error" style="color: #dc3545; font-size: 0.875em; margin-top: 0.25rem;">
+                            {% for error in field.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="btn btn-primary btn-block">Login</button>
+        </form>
+
+        <p class="auth-footer">
+            Don't have an account?
+            <a href="{% url 'accounts:register' %}">Register here</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

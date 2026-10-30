@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Technician Dashboard - HostelHub{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'dashboards/css/dashboard.css' %}">{% endblock %}
+{% block content %}
+<h2>Technician Dashboard</h2>
+<div class="stat-grid">
+    <div class="stat-card"><span class="stat-number">{{ stats.assigned }}</span><span>Assigned</span></div>
+    <div class="stat-card"><span class="stat-number">{{ stats.in_progress }}</span><span>In Progress</span></div>
+    <div class="stat-card"><span class="stat-number">{{ stats.resolved }}</span><span>Resolved</span></div>
+</div>
+<div class="dash-card">
+    <h3>My Tasks</h3>
+    <table class="data-table">
+        <thead><tr><th>#</th><th>Title</th><th>Priority</th><th>Status</th></tr></thead>
+        <tbody>
+        {% for c in complaints %}
+            <tr>
+                <td>{{ c.pk }}</td>
+                <td>{{ c.title }}</td>
+                <td>{{ c.get_priority_display }}</td>
+                <td><span class="badge badge-{{ c.status }}">{{ c.get_status_display }}</span></td>
+            </tr>
+        {% empty %}<tr><td colspan="4">No tasks assigned.</td></tr>{% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

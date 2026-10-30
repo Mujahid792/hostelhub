@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% block title %}Register - HostelHub{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <h2>Create Account</h2>
+
+        <form method="post" novalidate>
+            {% csrf_token %}
+
+            <!-- Non-field errors -->
+            {% if form.non_field_errors %}
+                <div class="alert alert-error" style="background: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; margin-bottom: 15px;">
+                    {% for error in form.non_field_errors %}
+                        <p style="margin: 0;">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <!-- Loop through all fields -->
+            {% for field in form %}
+
+                {% if field.name == 'roll_no' %}
+                    <!--
+                        ROLL NO FIELD
+                        Hidden by default. JS will show it if "Student" is selected.
+                    -->
+                    <div class="form-group" id="div_roll_no" style="display: none;">
+                        {{ field.label_tag }}
+                        {{ field }}
+
+                        {% if field.errors %}
+                            <div class="field-error" style="color: #dc3545; font-size: 0.875em; margin-top: 0.25rem;">
+                                {% for error in field.errors %}
+                                    <p style="margin: 0;">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                {% else %}
+                    <!--
+                        ALL OTHER FIELDS
+                        (Username, Email, Phone, Role, Password)
+                    -->
+                    <div class="form-group">
+                        {{ field.label_tag }}
+                        {{ field }}
+
+                        {% if field.errors %}
+                            <div class="field-error" style="color: #dc3545; font-size: 0.875em; margin-top: 0.25rem;">
+                                {% for error in field.errors %}
+                                    <p style="margin: 0;">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        <!-- Help text (Only shows for passwords, hides for Role) -->
+                        {% if field.help_text and field.name != 'role' %}
+                            <small class="help-text" style="color: #6c757d; display: block; margin-top: 0.25rem; font-size: 0.8rem;">
+                                {{ field.help_text|safe }}
+                            </small>
+                        {% endif %}
+                    </div>
+                {% endif %}
+
+            {% endfor %}
+
+            <button type="submit" class="btn btn-primary btn-block">Register</button>
+        </form>
+
+        <p class="auth-footer">
+            Already have an account?
+            <a href="{% url 'accounts:login' %}">Login</a>
+        </p>
+    </div>
+</div>
+
+<!-- JAVASCRIPT TO SHOW/HIDE ROLL NO DYNAMICALLY -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const roleSelect = document.querySelector('select[name="role"]');
+        const rollNoDiv = document.getElementById('div_roll_no');
+        const rollNoInput = document.querySelector('input[name="roll_no"]');
+
+        // Safety check to ensure elements exist
+        if (roleSelect && rollNoDiv && rollNoInput) {
+
+            function toggleRollNo() {
+                if (roleSelect.value === 'student') {
+                    // Show the field and make it required
+                    rollNoDiv.style.display = 'block';
+                    rollNoInput.required = true;
+                } else {
+                    // Hide the field and remove the requirement
+                    rollNoDiv.style.display = 'none';
+                    rollNoInput.required = false;
+                    // Clear the input value so it doesn't submit hidden data
+                    rollNoInput.value = '';
+                }
+            }
+
+            // Run on page load (in case of validation errors reloading the page)
+            toggleRollNo();
+
+            // Run every time the user changes the dropdown selection
+            roleSelect.addEventListener('change', toggleRollNo);
+        }
+    });
+</script>
+{% endblock %}

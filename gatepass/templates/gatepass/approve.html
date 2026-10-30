@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Review Gate Pass - HostelHub{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>Review Gate Pass #{{ gp.pk }}</h2>
+    <p><strong>Student:</strong> {{ gp.student.username }}</p>
+    <p><strong>Destination:</strong> {{ gp.destination }}</p>
+    <p><strong>Reason:</strong> {{ gp.reason }}</p>
+    <p><strong>Dates:</strong> {{ gp.departure_date }} to {{ gp.return_date }}</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" name="action" value="approve" class="btn btn-primary">Approve</button>
+        <button type="submit" name="action" value="reject" class="btn btn-danger">Reject</button>
+        <a href="{% url 'gatepass:list' %}" class="btn">Cancel</a>
+    </form>
+</div>
+{% endblock %}

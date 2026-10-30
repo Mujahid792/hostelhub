@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Welcome to HostelHub{% endblock %}
+
+{% block content %}
+<!-- 1. CUSTOM DARK NAVBAR (Only for Landing Page) -->
+<nav class="landing-navbar">
+    <div class="nav-container">
+        <!-- Brand/Logo -->
+
+        <a href="{% url 'landing' %}" class="brand">
+            <img src="{% static 'img/logo.png' %}" alt="Logo" class="nav-logo">
+            HostelHub
+        </a>
+
+        <!-- Middle Links -->
+        <div class="nav-links">
+            <a href="{% url 'rooms:list' %}">Find a Room</a>
+            <a href="{% url 'allocations:list' %}">List a Room</a>
+            <a href="{% url 'complaints:submit' %}">Maintenance</a>
+            <a href="{% url 'gatepass:request' %}">Gatepass</a>
+        </div>
+
+        <!-- Auth Buttons -->
+        <div class="nav-auth">
+            {% if user.is_authenticated %}
+                <a href="{% url 'dashboards:home' %}" class="btn-nav-login" style="font-weight: bold;">Dashboard</a>
+                <a href="{% url 'accounts:logout' %}" class="btn-nav-signup">Logout</a>
+            {% else %}
+                <a href="{% url 'accounts:login' %}" class="btn-nav-login">Login</a>
+                <a href="{% url 'accounts:register' %}" class="btn-nav-signup">Sign Up</a>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+
+<!-- 2. HERO SECTION WITH SEARCH -->
+<section class="landing-hero">
+    <div class="hero-overlay">
+        <div class="hero-content">
+            <h1>Find Your Perfect Hostel or Manage Your Stay</h1>
+            <p>Book rooms, submit maintenance requests, and manage gate passes all in one place.</p>
+
+            <div class="search-container">
+                <input type="text" placeholder="Search hostels, rooms..." class="search-input">
+                <button class="search-btn">Search</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 3. FEATURE CARDS -->
+<section class="landing-features">
+    <div class="features-grid">
+
+        <!-- Card 1 -->
+        <div class="feature-card-new">
+            <div class="icon" style="color: #2196F3;">🛏️</div>
+            <h3>Find a Room</h3>
+            <a href="{% url 'rooms:list' %}" class="btn-outline blue">Browse</a>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="feature-card-new">
+            <div class="icon" style="color: #4CAF50;">🛠️</div>
+            <h3>Maintenance</h3>
+            <a href="{% url 'complaints:submit' %}" class="btn-outline green">Report</a>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="feature-card-new">
+            <div class="icon" style="color: #FFC107;">🚪</div>
+            <h3>Gate Passes</h3>
+            <a href="{% url 'gatepass:request' %}" class="btn-outline yellow">Request</a>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="feature-card-new">
+            <div class="icon" style="color: #F44336;">📱</div>
+            <h3>SMS Alerts</h3>
+            <a href="#" class="btn-outline red">Manage</a>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

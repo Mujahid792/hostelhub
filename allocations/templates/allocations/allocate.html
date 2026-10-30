@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}Allocate Room - HostelHub{% endblock %}
+
+{% block content %}
+<div class="form-container" style="max-width: 800px;">
+    <h2>Allocate Room</h2>
+
+    <!-- FILTER BAR (Only for Rooms now) -->
+    <form method="get" style="display: flex; gap: 10px; margin-bottom: 20px; background: #f8f9fb; padding: 15px; border-radius: 8px;">
+        <div style="flex: 1;">
+            <label style="font-size: 0.85rem; font-weight: bold; display: block; margin-bottom: 5px;">Filter Available Room Type</label>
+            <select name="room_type" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                <option value="">All Available Types</option>
+                {% for value, label in room_types %}
+                    <option value="{{ value }}" {% if room_type_filter == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div style="display: flex; align-items: flex-end; gap: 5px;">
+            <button type="submit" class="btn btn-primary">Filter Rooms</button>
+            <a href="{% url 'allocations:allocate' %}" class="btn">Clear</a>
+        </div>
+    </form>
+
+    <!-- ALLOCATION FORM -->
+    <form method="post">
+        {% csrf_token %}
+
+        <!-- TEXT INPUT FOR ROLL NO -->
+        <div class="form-group">
+            <label>Student Roll No</label>
+            <input type="text" name="student_roll" required placeholder="Enter student roll number (e.g. 2023-CS-01)"
+                   style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+            <small style="color: #666; margin-top: 5px; display: block;">Make sure the roll number matches exactly.</small>
+        </div>
+
+        <!-- ROOM DROPDOWN -->
+        <div class="form-group">
+            <label>Select Available Room</label>
+            <select name="room" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                <option value="">-- Choose Room --</option>
+                {% for r in rooms %}
+                    <option value="{{ r.id }}">
+                        {{ r.block }}-{{ r.room_no }} ({{ r.get_room_type_display }})
+                        — {{ r.available_space }} space(s) left
+                    </option>
+                {% empty %}
+                    <option value="" disabled>No available rooms matching filters.</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 1rem;">Allocate Room</button>
+    </form>
+</div>
+{% endblock %}

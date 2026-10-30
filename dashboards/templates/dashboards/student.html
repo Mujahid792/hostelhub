@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Student Dashboard - HostelHub{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'dashboards/css/dashboard.css' %}">{% endblock %}
+{% block content %}
+<h2>Welcome, {{ user.username }}</h2>
+<div class="dashboard-grid">
+    <div class="dash-card">
+        <h3>My Room</h3>
+        {% if allocation %}
+            <p><strong>{{ allocation.room }}</strong></p>
+            <p>Type: {{ allocation.room.get_room_type_display }}</p>
+            <p>Since: {{ allocation.allocated_at|date:"Y-m-d" }}</p>
+        {% else %}
+            <p class="muted">No active allocation.</p>
+        {% endif %}
+    </div>
+    <div class="dash-card">
+        <h3>My Complaints</h3>
+        {% for c in complaints %}
+            <p><span class="badge badge-{{ c.status }}">{{ c.get_status_display }}</span> {{ c.title }}</p>
+        {% empty %}<p class="muted">No complaints.</p>{% endfor %}
+        <a href="{% url 'complaints:track' %}" class="btn btn-sm">View All</a>
+    </div>
+    <div class="dash-card">
+        <h3>My Gate Passes</h3>
+        {% for p in passes %}
+            <p><span class="badge badge-{{ p.status }}">{{ p.get_status_display }}</span> {{ p.destination }}</p>
+        {% empty %}<p class="muted">No gate passes.</p>{% endfor %}
+        <a href="{% url 'gatepass:list' %}" class="btn btn-sm">View All</a>
+    </div>
+</div>
+{% endblock %}
